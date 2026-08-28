@@ -18,4 +18,5 @@ CRUD operations on a DB
 - configured `package.json` with `"scripts"` (including temp SQLite DB) and corrected license.
 - installed `cors@2.8.5`; added in `src/server.js`.
 - defined `foodModel();` -> `food.js`, `clothesModel();` -> `clothes.js`, and `index.js`; `models/`.
+- implemented both (`food.js`, `clothes.js`) CRUD routers.
 - 
