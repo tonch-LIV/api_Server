@@ -5,13 +5,19 @@ const { Sequelize, DataTypes } = require('sequelize');
 const foodModel = require('./food.js');
 const clothesModel = require('./clothes.js');
 
-const DATABASE_URL = process.env.NODE_ENV === 'test'
-  ? 'sqlite::memory:'
-  : process.env.DATABASE_URL;
+let sequelize;
 
-const sequelize = new Sequelize(DATABASE_URL, {
-  logging: false,
-});
+if (process.env.NODE_ENV === 'test') {
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: ':memory:',
+    logging: false,
+  });
+} else {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    logging: false,
+  });
+}
 
 const Food = foodModel(sequelize, DataTypes);
 const Clothes = clothesModel(sequelize, DataTypes);

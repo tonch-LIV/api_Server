@@ -19,4 +19,8 @@ CRUD operations on a DB
 - installed `cors@2.8.5`; added in `src/server.js`.
 - defined `foodModel();` -> `food.js`, `clothesModel();` -> `clothes.js`, and `index.js`; `models/`.
 - implemented both (`food.js`, `clothes.js`) CRUD routers.
+- built `src/server.js` file to include neccessary modules.
+- updated root, `./index.js` to reflect server starting and accept request until after Sequelize synchs model definitions with db.
+- built `__tests__/server.test.js`.
+- `npm test` run successful; lower coverage percentages from code paths not executed from test.
 - 
