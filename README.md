@@ -23,4 +23,5 @@ CRUD operations on a DB
 - updated root, `./index.js` to reflect server starting and accept request until after Sequelize synchs model definitions with db.
 - built `__tests__/server.test.js`.
 - `npm test` run successful; lower coverage percentages from code paths not executed from test.
-- 
+- created `.env` and example.
+- confirm routes and request work and are valid across models.
