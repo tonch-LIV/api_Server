@@ -2,6 +2,101 @@
 
 CRUD operations on a DB
 
+## Links
+
+- [Deployed API](https://api-server-163v.onrender.com/)
+- [GitHub Actions](https://github.com/tonch-LIV/api_Server/actions)
+- [Pull request](https://github.com/tonch-LIV/api_Server/pull/1)
+
+## REST API
+
+### Food
+
+| Method | Route | Operation |
+| --- | --- | --- |
+| POST | `/food` | Create food |
+| GET | `/food` | Read all food |
+| GET | `/food/:id` | Read one food |
+| PUT | `/food/:id` | Update food |
+| DELETE | `/food/:id` | Delete food |
+
+Example:
+
+```json
+{
+  "name": "apple",
+  "calories": 95,
+  "type": "fruit"
+}
+```
+
+### Clothes
+
+| Method | Route | Operation |
+| --- | --- | --- |
+| POST | `/clothes` | Create clothes |
+| GET | `/clothes` | Read all clothes |
+| GET | `/clothes/:id` | Read one clothes |
+| PUT | `/clothes/:id` | Update clothes |
+| DELETE | `/clothes/:id` | Delete clothes |
+
+Example:
+
+```json
+{
+  "name": "shirt",
+  "color": "blue",
+  "size": "medium"
+}
+```
+
+## Architecture
+
+```mermaid
+flowchart TD
+    A[index.js] --> B[Sequelize synchronization]
+    B --> C[src/server.js]
+    C --> D[Food router]
+    C --> E[Clothes router]
+    D --> F[Food model]
+    E --> G[Clothes model]
+    F --> H[(PostgreSQL)]
+    G --> H
+    C --> I[404 handler]
+    C --> J[500 handler]
+```
+
+## Database Environments
+
+- Jest uses an in-memory SQLite database.
+- Local development uses PostgreSQL through `.env`.
+- The deployed application uses Render PostgreSQL through `DATABASE_URL`.
+- `.env` is ignored and never committed.
+- `.env.example` documents the expected variable names.
+
+## Testing
+
+The Jest and Supertest suite verifies:
+
+- unknown routes
+- unsupported methods
+- model-validation errors
+- create, read, update, and delete operations
+- both SQL models
+- filtering of undeclared fields
+
+Run the tests with:
+
+```bash
+npm test
+```
+
+Start local development with:
+
+```bash
+npm run dev
+```
+
 ## Changelog
 
 - created repo with MIT license and node `.gitignore`.
@@ -25,3 +120,8 @@ CRUD operations on a DB
 - `npm test` run successful; lower coverage percentages from code paths not executed from test.
 - created `.env` and example.
 - confirm routes and request work and are valid across models.
+- verified 13 automated tests locally and through GitHub Actions.
+- created local and Render PostgreSQL databases.
+- deployed the `main` branch to Render.
+- verified deployed read and error routes.
+- verified deployed CRUD persistence.
