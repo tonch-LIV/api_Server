@@ -125,3 +125,10 @@ npm run dev
 - deployed the `main` branch to Render.
 - verified deployed read and error routes.
 - verified deployed CRUD persistence.
+
+- `modeling` branch created for lab_04.
+- re-purposed `clothes` models and routes for new lab direction; renamed `ingredients`.
+- added a reusable Collection class for CRUD operations.
+- created a one-to-many Food and Ingredient association.
+- added parent, child, and joined association routes.
+- updated the test suite; all 14 tests pass.

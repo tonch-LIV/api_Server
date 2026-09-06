@@ -3,7 +3,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 const foodModel = require('./food.js');
-const clothesModel = require('./clothes.js');
+const ingredientModel = require('./ingredients.js');
 
 let sequelize;
 
@@ -20,10 +20,22 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 const Food = foodModel(sequelize, DataTypes);
-const Clothes = clothesModel(sequelize, DataTypes);
+const Ingredient = ingredientModel(sequelize, DataTypes);
+
+Food.hasMany(Ingredient, {  // matches Food's `id` against ingredients `foodId`
+  foreignKey: 'foodId',
+  sourceKey: 'id',  // parent column used by `.hasMany`
+  as: 'ingredients',
+});
+
+Ingredient.belongsTo(Food, {  // Ingredient's `foodId` points to Food's `id`.
+  foreignKey: 'foodId',  // child table column
+  targetKey: 'id',  //  parent column targeted by `.belongsTo`
+  as: 'food',
+});
 
 module.exports = {
   db: sequelize,
   Food,
-  Clothes,
+  Ingredient,
 };
