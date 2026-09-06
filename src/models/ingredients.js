@@ -1,20 +1,20 @@
 'use strict';
 
-function clothesModel(sequelize, DataTypes) {
-  return sequelize.define('Clothes', {
+function ingredientModel(sequelize, DataTypes) {
+  return sequelize.define('Ingredient', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    color: {
+    amount: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    size: {
-      type: DataTypes.STRING,
+    foodId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   });
 }
 
-module.exports = clothesModel;
+module.exports = ingredientModel;

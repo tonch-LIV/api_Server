@@ -7,6 +7,7 @@ CRUD operations on a DB
 - [Deployed API](https://api-server-163v.onrender.com/)
 - [GitHub Actions](https://github.com/tonch-LIV/api_Server/actions)
 - [Pull request](https://github.com/tonch-LIV/api_Server/pull/1)
+- [Lab 04 pull request](hhttps://github.com/tonch-LIV/api_Server/pull/3)
 
 ## REST API
 
@@ -17,6 +18,7 @@ CRUD operations on a DB
 | POST | `/food` | Create food |
 | GET | `/food` | Read all food |
 | GET | `/food/:id` | Read one food |
+| GET | `/food/:id/ingredients` | Read food with its related ingredients |
 | PUT | `/food/:id` | Update food |
 | DELETE | `/food/:id` | Delete food |
 
@@ -30,25 +32,27 @@ Example:
 }
 ```
 
-### Clothes
+### Ingredients
 
 | Method | Route | Operation |
 | --- | --- | --- |
-| POST | `/clothes` | Create clothes |
-| GET | `/clothes` | Read all clothes |
-| GET | `/clothes/:id` | Read one clothes |
-| PUT | `/clothes/:id` | Update clothes |
-| DELETE | `/clothes/:id` | Delete clothes |
+| POST | `/ingredients` | Create an ingredient |
+| GET | `/ingredients` | Read all ingredients |
+| GET | `/ingredients/:id` | Read one ingredient |
+| PUT | `/ingredients/:id` | Update an ingredient |
+| DELETE | `/ingredients/:id` | Delete an ingredient |
 
 Example:
 
 ```json
 {
-  "name": "shirt",
-  "color": "blue",
-  "size": "medium"
+  "name": "cheese",
+  "amount": "2 cups",
+  "foodId": "2"
 }
 ```
+
+Each Ingredient belongs to the Good Idnetified by `foodId`.
 
 ## Architecture
 
@@ -57,14 +61,22 @@ flowchart TD
     A[index.js] --> B[Sequelize synchronization]
     B --> C[src/server.js]
     C --> D[Food router]
-    C --> E[Clothes router]
-    D --> F[Food model]
-    E --> G[Clothes model]
-    F --> H[(PostgreSQL)]
-    G --> H
-    C --> I[404 handler]
-    C --> J[500 handler]
+    C --> E[Ingredient router]
+    D --> F[Food Collection]
+    E --> G[Ingredient Collection]
+    F --> H[Food model]
+    G --> I[Ingredient model]
+    H -->|hasMany| I
+    I -->|belongsTo| H
+    H --> J[(PostgreSQL)]
+    I --> J
 ```
+
+The reusable Collection class provides `create()`, `read()`, `update()`, and `delete()` methods for any supplied Sequelize model.
+
+Food and Ingredient have a one-to-many relationship. A Food can have many Ingredients, while each Ingredient belongs to one Food through `foodId`.
+
+Food responses provide a link to the nested association route, and Ingredient responses provide a link to their parent Food. The nested `/food/:id/ingredients` endpoint uses a Sequelize join to return the related records.
 
 ## Database Environments
 
@@ -84,6 +96,9 @@ The Jest and Supertest suite verifies:
 - create, read, update, and delete operations
 - both SQL models
 - filtering of undeclared fields
+- Collection-based CRUD operations
+- Food-to-Ingredient association links
+- joined Food and Ingredient data
 
 Run the tests with:
 
@@ -125,3 +140,10 @@ npm run dev
 - deployed the `main` branch to Render.
 - verified deployed read and error routes.
 - verified deployed CRUD persistence.
+
+- `modeling` branch created for lab_04.
+- re-purposed `clothes` models and routes for new lab direction; renamed `ingredients`.
+- added a reusable Collection class for CRUD operations.
+- created a one-to-many Food and Ingredient association.
+- added parent, child, and joined association routes.
+- updated the test suite; all 14 tests pass.
